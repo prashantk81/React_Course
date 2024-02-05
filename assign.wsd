@@ -1,0 +1,106 @@
+@startuml
+
+class SmartVehicle {
+  -vehicleId: int
+  -noOfRides: int
+  -ratings: int
+  -isParked: bool
+  -currentLocation: String
+}
+class Bike
+{
+}
+class Bicycle
+{
+}
+class Moped
+{ 
+ +chargingPercentage: intc1
+}
+
+
+class User {
+  -userId: int
+  -username: String
+  -email: String
+  -idDocument: Document
+  -walletBalance: double
+  +createAccount(): void
+  +uploadId(document: Document): void
+  +addMoneyToWallet(amount: double): void
+  +viewTripHistory(): void
+  +makePayment(amount: double): void
+}
+
+class Document {
+  -documentType: String
+  -documentData: String
+}
+class Staff
+{
+}
+class Student
+{
+}
+class Teacher
+{
+}
+
+' class vehicleReservation {
+'   -reservationId: int
+'   -user: User
+'   -vehicle: SmartVehicle
+'   -startTime: DateTime
+'   -endTime: DateTime
+'   -distanceTraveled: double
+'   +calculateFare(): double
+'   +startTrip(qrCode: String): void
+'   +endTrip(qrCode: String): void
+' }
+
+class PaymentManager {
+  +makePayment(user: User, amount: double): void
+  +addMoneyToWallet(user: User, amount: double): void
+}
+
+class SupportSystem {
+  +provideFeedback(user: User, feedback: String): void
+  +provideRating(user: User, rating: int): void
+  +provideDocumentation(): String
+}
+
+class ParkingLotManager {
+  -parkingLotId: int
+  -capacity: int
+  -availableBikes: int
+  -maintenanceStatus: String
+  +trackBikeAvailability(): void
+  +updateBikeStatus(bike: SmartVehicle): void
+  +logSystemData(): void
+}
+
+class TripManager {
+  +startTrip(user: User, vehicle: SmartVehicle): void
+  +endTrip(user: User): void
+}
+
+User <|-- Staff
+User <|-- Teacher
+User <|-- Student
+
+SmartVehicle <|-- Moped
+SmartVehicle <|-- Bicycle
+SmartVehicle <|-- Bike
+
+
+User *-- Document: has
+SmartVehicle *-- User: uses
+SmartVehicle "1" --|> vehicleReservation: manages
+PaymentManager -- User: manages
+SupportSystem -- User: supports
+ParkingLotManager *-- SmartVehicle: manages
+
+TripManager *-- User: manages
+TripManager *-- SmartVehicle: manages
+
+@enduml
